@@ -48,14 +48,6 @@ namespace ChemicalСompoundRecognition
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //for(var y = 0; y < ActiveGraph.Height; y++)
-            //{
-            //    var p = ActiveGraph.GetPixel(250, y);
-            //    if(p.ToArgb() == Color.Black.ToArgb())
-            //        MessageBox.Show("Черный тут: " + y);
-            //}
-
-            //return;
             if (ActiveGraph == null || !int.TryParse(textBox3.Text, out int step) || step <= 0) return;
 
             GetCoordinates(step);
@@ -78,6 +70,8 @@ namespace ChemicalСompoundRecognition
             }
 
             textBox1.Clear();
+
+
             coordinates.ForEach(point => textBox1.AppendText($"[{point.X},{point.Y}]" + Environment.NewLine));
         }
 
@@ -100,6 +94,8 @@ namespace ChemicalСompoundRecognition
 
             PixelColor.SavePixelColorsIntoFile(matrix);
         }
+
+
     }
 
     struct PixelColor
@@ -107,11 +103,11 @@ namespace ChemicalСompoundRecognition
         public int X;
         public int Y;
         public int Color;
-        public PixelColor(int x, int y, int c)
+        public PixelColor(int x, int y, int color)
         {
             X = x;
             Y = y;
-            Color = c;
+            Color = color;
         }
 
         public static void SavePixelColorsIntoFile(List<PixelColor> collection)
@@ -121,7 +117,8 @@ namespace ChemicalСompoundRecognition
             string fileText = string.Empty;
 
             var currentLine = collection[0].Y;
-            collection.ForEach(pixel => {
+            collection.ForEach(pixel =>
+            {
                 if (currentLine != pixel.Y)
                 {
                     fileText += Environment.NewLine;
@@ -131,7 +128,7 @@ namespace ChemicalСompoundRecognition
                 fileText += pixel.Color;
             });
 
-            File.WriteAllText("graphMatrix.txt", fileText);  
+            File.WriteAllText("graphMatrix.txt", fileText, Encoding.UTF8);
         }
     }
 }
